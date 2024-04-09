@@ -11,13 +11,13 @@ pipeline {
         stage('Build') {
             steps {
                 // Build the .NET project
-                bat 'dotnet build DotnetPipelineApp.sln'
+                sh 'dotnet build DotnetPipelineApp.sln'
             }
         }
         stage('Test') {
             steps {
                 // Run tests
-                bat 'dotnet test DotnetPipelineApp.Tests/DotnetPipelineApp.Tests.csproj'
+                sh 'dotnet test DotnetPipelineApp.Tests/DotnetPipelineApp.Tests.csproj'
             }
         }
     }
