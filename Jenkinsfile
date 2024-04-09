@@ -2,6 +2,15 @@ pipeline {
     agent any
 
     stages {
+        stage('Configure .NET SDK') {
+            steps {
+                script {
+                    // Set the path to the dotnet executable
+                    def dotnetPath = tool 'dotnet'
+                    env.PATH = "${dotnetPath}:${env.PATH}"
+                }
+            }
+        }
         stage('Checkout') {
             steps {
                 // Checkout source code from Git
