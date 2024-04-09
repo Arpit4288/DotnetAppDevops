@@ -1,23 +1,36 @@
 pipeline {
     agent any
-
+    
     stages {
         stage('Checkout') {
             steps {
-                // Checkout source code from Git
-                git url: 'https://github.com/aparnajoshi31/DotnetAppDevops.git'
+                echo 'Starting Checkout stage...'
+                git url: 'https://github.com/Arpit4288/MVC-APP.git', branch: 'master'
+                echo 'Checkout stage completed.'
             }
         }
+
+        stage('Check Content') {
+            steps {
+                echo 'Starting Check Content stage...'
+                sh 'ls -l'
+                echo 'Check Content stage completed.'
+            }
+        }
+        
         stage('Build') {
             steps {
-                // Build the .NET project
-                sh 'dotnet build DotnetPipelineApp.sln'
+                echo 'Starting Build stage...'
+                sh 'dotnet build'
+                echo 'Build stage completed.'
             }
         }
+        
         stage('Test') {
             steps {
-                // Run tests
-                sh 'dotnet test DotnetPipelineApp.Tests/DotnetPipelineApp.Tests.csproj'
+                echo 'Starting Test stage...'
+                sh 'dotnet test'
+                echo 'Test stage completed.'
             }
         }
     }
