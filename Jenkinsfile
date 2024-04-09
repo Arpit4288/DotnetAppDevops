@@ -5,7 +5,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 echo 'Starting Checkout stage...'
-                git url: 'https://github.com/Arpit4288/MVC-APP.git', branch: 'master'
+                git url: 'https://github.com/aparnajoshi31/DotnetAppDevops.git', branch: 'master'
                 echo 'Checkout stage completed.'
             }
         }
