@@ -21,7 +21,9 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Starting Build stage...'
-                sh 'dotnet build'
+                dir('DotnetPipelineApp') { // Replace 'path/to/project' with the actual path to your project
+                    sh 'dotnet build'
+                }
                 echo 'Build stage completed.'
             }
         }
@@ -29,7 +31,9 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Starting Test stage...'
-                sh 'dotnet test'
+                dir('DotnetPipelineApp') { // Replace 'path/to/project' with the actual path to your project
+                    sh 'dotnet test'
+                }
                 echo 'Test stage completed.'
             }
         }
