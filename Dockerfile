@@ -1,28 +1,22 @@
-# Stage 1: Build
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS builder
+#See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
-WORKDIR /src
-
-# Copy the project files
-COPY . .
-
-# Run dotnet restore
-RUN dotnet restore
-
-# Publish the application
-RUN dotnet publish -c Release -o /app
-
-# Run tests
-RUN dotnet test --logger "trx;LogFileName=./aspnetapp.trx"
-
-# Stage 2: Runtime
-FROM mcr.microsoft.com/dotnet/aspnet:6.0
-
-# Set working directory
+FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
 WORKDIR /app
+EXPOSE 80
+EXPOSE 443
 
-# Copy build artifacts from the build stage
-COPY --from=builder /app .
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+WORKDIR /src
+COPY ["DotnetPipelineApp/DotnetPipelineApp.csproj", "DotnetPipelineApp/"]
+RUN dotnet restore "DotnetPipelineApp/DotnetPipelineApp.csproj"
+COPY . .
+WORKDIR "/src/."
+RUN dotnet build "DotnetPipelineApp/DotnetPipelineApp.csproj" -c Release -o /app/build
 
-# Set the entry point
-ENTRYPOINT ["dotnet", "aspnetapp.dll"]
+FROM build AS publish
+RUN dotnet publish "DotnetPipelineApp/DotnetPipelineApp.csproj" -c Release -o /app/publish /p:UseAppHost=false
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "DotnetPipelineApp.dll"]
