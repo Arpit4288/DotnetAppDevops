@@ -14,16 +14,26 @@ pipeline {
         }
 
         stage('Build') {
-            steps {
-                sh 'dotnet build --configuration Release'
-            }
+    steps {
+        echo 'Starting Build stage...'
+        dir('DotnetPipelineApp') {
+            sh 'dotnet build --configuration Release'
         }
+        echo 'Build stage completed.'
+    }
+}
+
 
         stage('Test') {
-            steps {
-                sh 'dotnet test'
-            }
+    steps {
+        echo 'Starting Test stage...'
+        dir('DotnetPipelineApp') {
+            sh 'dotnet test'
         }
+        echo 'Test stage completed.'
+    }
+}
+
 
         stage('Docker Build') {
             steps {
