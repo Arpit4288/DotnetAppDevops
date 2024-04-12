@@ -73,7 +73,7 @@ pipeline {
                     }
                     // Print a message if the container is already running
                     else if (containerExists) {
-                        sh 'docker stop Assignment3-container || true'
+                        sh 'docker rm Assignment3-container || true'
                         echo 'Removed successfully.'
                     }
                     // Print a message if the container does not exist
