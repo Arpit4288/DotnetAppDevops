@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = 'aparnajoshi3105/devopsassignment_01'
+        IMAGE_NAME = 'aparnajoshi3105/devopsassignment_03'
         IMAGE_TAG = 'latest'
     }
 
@@ -61,6 +61,7 @@ pipeline {
             steps {
                 script {
                     // Stop the currently running container (if any)
+                    sh 'docker stop ${IMAGE_NAME}
                     sh 'docker rm -f ${IMAGE_NAME} || true'
                     // Run the new container
                     sh "docker run -d --name dotnetappcontainer  -p 8000:80 ${IMAGE_NAME}:${IMAGE_TAG}"
