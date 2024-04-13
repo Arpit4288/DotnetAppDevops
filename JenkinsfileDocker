@@ -86,13 +86,8 @@ pipeline {
         stage('Run Container') {
             steps {
                 script {
-                    // Stop the currently running container (if any)
-                    
-                    // sh 'docker stop ${IMAGE_NAME}
-                    //sh 'docker rm -f ${IMAGE_NAME} || true'
                     // Run the new container
-                    //sh "docker run -d --name dotnetappcontainer  -p 8000:80 ${IMAGE_NAME}:${IMAGE_TAG}"
-                    sh "docker run -d -p 8081:8081 -p 51000:50000 --name ${CONTAINER_NAME} ${IMAGE_NAME}:${IMAGE_TAG}"
+                    sh "docker run -d --name ${CONTAINER_NAME} -p 8000:80 ${IMAGE_NAME}:${IMAGE_TAG}"
                 }
             }
         }
